@@ -1,9 +1,9 @@
-# Your Project Title Here
-Name: Your Full Name
+# College App for its Activities and Notifications
+Name: Pradip Kandel
 
-CollegeID: Your College ID
+CollegeID: 160383
 
-Batch: Jan19A/B/C/D?
+Batch: Jan19D
 
 Brief description of the domain of your project!
 
