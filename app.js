@@ -3,8 +3,9 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
 
-//const userRoute = require("./routes/users");
+const userRoute = require("./routes/users");
 const courseRoute = require("./routes/courses");
 //const noticeRoute = require("./routes/notices");
 //const assignmentRoute = require("./routes/assignments");
@@ -31,7 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
-//app.use("/users", userRoute);
+app.use("/users", userRoute);
 app.use("/courses", courseRoute);
 //app.use("/notices", noticeRoute);
 //app.use("/assignments", assignmentRoute);
@@ -52,4 +53,10 @@ app.use((error, req, res, next) => {
   });
 });
 
+function generateToken() {
+  const token = jwt.sign({ _id: "userid" }, "mysecretkey");
+  console.log(token);
+}
+
+generateToken();
 module.exports = app;

@@ -38,15 +38,15 @@ router.post("/", upload.single("course_image"), (req, res, next) => {
     course_duration: req.body.course_duration,
     course_price: req.body.course_price,
     course_modules: req.body.course_modules,
-    course_desc: req.body.course_desc,
-    course_image: req.file.path
+    course_desc: req.body.course_desc
+    // course_image: req.file.path
   });
   course
     .save()
     .then(result => {
       console.log(result);
       res.status(201).json({
-        message: "Course uploaded successfully"
+        course_image: course.course_image
       });
     })
     .catch(err => {
@@ -77,10 +77,17 @@ router.get("/:id", function(req, res) {
     });
 });
 
-router.patch("/updateCourse/:id", function(req, res) {
-  Course.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then()
-    .catch();
+router.put("/updateCourse/:id", function(req, res) {
+  uid = req.params.id.toString();
+  Course.findByIdAndUpdate(uid, req.body, { new: true })
+    .then(function(user) {
+      res.send(user);
+      console.log(user);
+    })
+    .catch(function(e) {
+      res.send(e);
+      console.log(e);
+    });
 });
 
 router.delete("/deleteCourse/:id", (req, res) => {
