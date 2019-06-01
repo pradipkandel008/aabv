@@ -4,6 +4,7 @@ const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+const auth = require("./middleware/auth");
 
 const userRoute = require("./routes/users");
 const courseRoute = require("./routes/courses");
@@ -53,10 +54,10 @@ app.use((error, req, res, next) => {
   });
 });
 
-function generateToken() {
+/* function generateToken() {
   const token = jwt.sign({ _id: "userid" }, "mysecretkey");
   console.log(token);
 }
 
-generateToken();
+generateToken(); */
 module.exports = app;

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const middleware = require("../middleware/middleware");
+const auth = require("../middleware/auth");
 
 const User = require("../models/users");
 
@@ -14,6 +15,15 @@ router.post("/login", (req, res) => {
 
 router.get("/test", middleware, function() {
   console.log("this is test URL");
+});
+
+router.post("/login22", async function(req, res) {
+  const user = await User.checkCrediantialsDb(
+    req.body.user_name,
+    req.body.password
+  );
+  console.log(user);
+  //const token = await user.generateAuthToken();
 });
 
 module.exports = router;

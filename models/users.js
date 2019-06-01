@@ -37,13 +37,18 @@ const userSchema = new Schema(
   }
 }; */
 
-userSchema.statics.authDynamic = function(user_name, password) {
+/* userSchema.statics.authDynamic = function(user_name, password) {
   if (user_name == "admin" && password == "admin") {
     console.log("Welcome Admin");
   } else {
     console.log("Invalid Username or Password");
   }
+}; */
+//step 2
+userSchema.statics.checkCrediantialsDb = async (user, password) => {
+  const user1 = await User.findOne({ user_name: user, password: password });
+  return user1;
 };
 
-const Users = mongoose.model("User", userSchema);
-module.exports = Users;
+const User = mongoose.model("User", userSchema);
+module.exports = User;
