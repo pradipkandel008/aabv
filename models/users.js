@@ -12,13 +12,25 @@ const userSchema = new Schema(
       type: String
       //required: true
     },
+    email: {
+      required: true,
+      type: String,
+      unique: true,
+      match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+    },
+    batch: {
+      type: String
+    },
+    section: {
+      type: String
+    },
     user_name: {
       type: String
       //required: true
     },
     password: {
-      type: String
-      //required: true
+      type: String,
+      required: true
     },
     tokens: [
       {
@@ -56,6 +68,7 @@ const userSchema = new Schema(
 //step 2
 userSchema.statics.checkCrediantialsDb = async (user, password) => {
   const user1 = await User.findOne({ user_name: user, password: password });
+  console.log(user1);
   return user1;
 };
 
