@@ -46,35 +46,18 @@ const userSchema = new Schema(
   }
 );
 
-/* userSchema.statics.myFirst = function() {
-  console.log("this is my first function");
-}; */
-
-/* userSchema.statics.authStatic = function(user_name, password) {
-  if (user_name == "admin" && password == "admin") {
-    console.log("Welcome Admin");
-  } else {
-    console.log("Invalid Username or Password");
-  }
-}; */
-
-/* userSchema.statics.authDynamic = function(user_name, password) {
-  if (user_name == "admin" && password == "admin") {
-    console.log("Welcome Admin");
-  } else {
-    console.log("Invalid Username or Password");
-  }
-}; */
-//step 2
 userSchema.statics.checkCrediantialsDb = async (user, password) => {
   const user1 = await User.findOne({ user_name: user, password: password });
-  console.log(user1);
-  return user1;
+  if (user1) {
+    console.log(user1);
+    return user1;
+  } else {
+  }
 };
 
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, "thisismynewcourse");
+  const token = jwt.sign({ _id: user._id.toString() }, "collegeapp");
   console.log(token);
   user.tokens = user.tokens.concat({ token: token });
   await user.save();
