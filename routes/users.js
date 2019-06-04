@@ -150,7 +150,6 @@ router.post("/login", async function(req, res) {
     req.body.user_name,
     req.body.password
   );
-  console.log(user);
   const token = await user.generateAuthToken();
   res.send(token);
 });

@@ -80,9 +80,10 @@ router.get("/:id", function(req, res) {
 router.put("/updateCourse/:id", function(req, res) {
   uid = req.params.id.toString();
   Course.findByIdAndUpdate(uid, req.body, { new: true })
-    .then(function(user) {
-      res.send(user);
-      console.log(user);
+    .then(function(course) {
+      res.status(201).json({
+        message: course
+      });
     })
     .catch(function(e) {
       res.send(e);
@@ -92,8 +93,11 @@ router.put("/updateCourse/:id", function(req, res) {
 
 router.delete("/deleteCourse/:id", (req, res) => {
   Course.findByIdAndDelete(req.params.id)
-    .then(function() {
+    .then(function(result) {
       console.log("Deleted Successfully");
+      res.status(201).json({
+        message: result
+      });
     })
     .catch(function(e) {
       console.log(e);

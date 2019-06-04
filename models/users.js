@@ -52,6 +52,7 @@ userSchema.statics.checkCrediantialsDb = async (user, password) => {
     console.log(user1);
     return user1;
   } else {
+    console.log("auth failed");
   }
 };
 
