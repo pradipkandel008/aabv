@@ -20,15 +20,16 @@ var imageFileFilter = (req, file, cb) => {
 var upload = multer({
   storage: storage,
   fileFilter: imageFileFilter,
-  limits: { fileSize: 1024*1024*10 }
+  limits: { fileSize: 1024 * 1024 * 10 }
 });
 
 var uploadRouter = express.Router();
 
-uploadRouter.route("/").post(upload.single("imageFile"), (req, res) => {
+uploadRouter.route("/").post(upload.single("image"), (req, res) => {
   res.statusCode = 200;
   res.setHeader("Content-Type", "application/json");
   res.json(req.file);
+  console.log(req.file);
 });
 
 module.exports = uploadRouter;
