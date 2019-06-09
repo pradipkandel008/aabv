@@ -35,4 +35,14 @@ router.get("/", function(req, res) {
     });
 });
 
+router.get("/:id", function(req, res) {
+  Notice.findById(req.params.id)
+    .then(function(notice) {
+      res.send(notice);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+
 module.exports = router;
