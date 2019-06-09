@@ -9,7 +9,7 @@ const auth = require("./middleware/auth");
 const userRoute = require("./routes/users");
 const courseRoute = require("./routes/courses");
 const uploadRoute = require("./routes/upload");
-//const noticeRoute = require("./routes/notices");
+const noticeRoute = require("./routes/notices");
 //const assignmentRoute = require("./routes/assignments");
 
 app.use(morgan("dev"));
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
 app.use("/users", userRoute);
 app.use("/courses", courseRoute);
 app.use("/uploads", uploadRoute);
-//app.use("/notices", noticeRoute);
+app.use("/notices", noticeRoute);
 //app.use("/assignments", assignmentRoute);
 
 //error handling

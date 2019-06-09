@@ -79,16 +79,17 @@ router.get("/:id", function(req, res) {
 
 router.put("/updateCourse/:id", function(req, res) {
   uid = req.params.id.toString();
-  Course.findByIdAndUpdate(uid, req.body, { new: true })
-    .then(function(course) {
-      res.status(201).json({
-        message: course
+  c,
+    Course.findByIdAndUpdate(uid, req.body, { new: true })
+      .then(function(course) {
+        res.status(201).json({
+          message: course
+        });
+      })
+      .catch(function(e) {
+        res.send(e);
+        console.log(e);
       });
-    })
-    .catch(function(e) {
-      res.send(e);
-      console.log(e);
-    });
 });
 
 router.delete("/deleteCourse/:id", (req, res) => {

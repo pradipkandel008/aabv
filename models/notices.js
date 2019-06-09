@@ -3,13 +3,20 @@ const Schema = mongoose.Schema;
 
 const noticeSchema = new Schema(
   {
-    notice_type: {
+    notice_title: {
       type: String
       // required: true
+    },
+    notice_subject: {
+      type: String
+      //required:true
     },
     notice_desc: {
       type: String
       //required: true
+    },
+    notice_date: {
+      type: Date
     }
   },
   {
