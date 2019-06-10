@@ -154,11 +154,14 @@ router.post("/login", async function(req, res) {
   res.send(token);
 });
 
-router.post("/logout", (req, res) => {
-  req.logout();
-  res.status(200).json({
-    status: "Bye!"
-  });
+router.post("/logout", auth, async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.send();
+  } catch (e) {
+    res.status(500).send();
+  }
 });
 
 module.exports = router;
