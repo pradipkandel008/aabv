@@ -45,4 +45,17 @@ router.get("/:id", function(req, res) {
     });
 });
 
+router.delete("/deleteNotice/:id", (req, res) => {
+  Notice.findByIdAndDelete(req.params.id)
+    .then(function(result) {
+      console.log("Deleted Successfully");
+      res.status(201).json({
+        message: result
+      });
+    })
+    .catch(function(e) {
+      console.log(e);
+    });
+});
+
 module.exports = router;
