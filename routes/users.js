@@ -151,7 +151,10 @@ router.post("/login", async function(req, res) {
     req.body.password
   );
   const token = await user.generateAuthToken();
-  res.send(token);
+  res.status(201).json({
+    token: token,
+    user: user
+  });
 });
 
 router.post("/logout", auth, async (req, res) => {

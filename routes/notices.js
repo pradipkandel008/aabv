@@ -48,9 +48,9 @@ router.get("/:id", function(req, res) {
 router.delete("/deleteNotice/:id", (req, res) => {
   Notice.findByIdAndDelete(req.params.id)
     .then(function(result) {
-      console.log("Deleted Successfully");
+      console.log("Notice Deleted Successfully");
       res.status(201).json({
-        message: result
+        message: "Notice Deleted Successfully"
       });
     })
     .catch(function(e) {

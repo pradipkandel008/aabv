@@ -32,6 +32,9 @@ const userSchema = new Schema(
       type: String,
       required: true
     },
+    user_type: {
+      type: String
+    },
     tokens: [
       {
         token: {
