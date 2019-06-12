@@ -26,7 +26,9 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", function(req, res) {
-  Notice.find()
+  Notice.find({})
+    .sort({ createdAt: -1 }) //sort in descending order
+    .exec()
     .then(function(notice) {
       res.send(notice);
     })
