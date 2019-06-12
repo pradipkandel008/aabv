@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const moment = require("moment");
 const Notice = require("../models/notices");
 
 router.post("/", (req, res) => {
@@ -7,7 +8,7 @@ router.post("/", (req, res) => {
     notice_title: req.body.notice_title,
     notice_subject: req.body.notice_subject,
     notice_desc: req.body.notice_desc,
-    notice_date: req.body.notice_date
+    notice_date: moment()
   });
   notice
     .save()

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const DateOnly = require("mongoose-dateonly")(mongoose);
+const moment = require("moment");
 const Schema = mongoose.Schema;
 
 const noticeSchema = new Schema(
@@ -17,7 +17,7 @@ const noticeSchema = new Schema(
       //required: true
     },
     notice_date: {
-      type: DateOnly
+      type: Date
     }
   },
   {
