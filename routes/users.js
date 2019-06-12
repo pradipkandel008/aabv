@@ -115,6 +115,7 @@ router.post("/register", (req, res) => {
           email: req.body.email,
           batch: req.body.batch,
           section: req.body.section,
+          user_type: "user",
           user_name: req.body.user_name,
           password: req.body.password
         });

@@ -61,7 +61,9 @@ userSchema.statics.checkCrediantialsDb = async (user, password) => {
 
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const token = jwt.sign({ _id: user._id.toString() }, "collegeapp");
+  const token = jwt.sign({ _id: user._id.toString() }, "collegeapp", {
+    expiresIn: "1h"
+  });
   console.log(token);
   user.tokens = user.tokens.concat({ token: token });
   await user.save();
