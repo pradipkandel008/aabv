@@ -32,21 +32,21 @@ const upload = multer({
 
 const Course = require("../models/courses");
 
-router.post("/", upload.single("course_image"), (req, res, next) => {
+router.post("/", upload.single("course_image"), (req, res) => {
   const course = new Course({
     course_name: req.body.course_name,
     course_duration: req.body.course_duration,
     course_price: req.body.course_price,
     course_modules: req.body.course_modules,
-    course_desc: req.body.course_desc
-    // course_image: req.file.path
+    course_desc: req.body.course_desc,
+    course_image: req.file.path
   });
   course
     .save()
     .then(result => {
       console.log(result);
       res.status(201).json({
-        course_image: course.course_image
+        message: "Course Added Successfully"
       });
     })
     .catch(err => {

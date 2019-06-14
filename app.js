@@ -10,7 +10,7 @@ const userRoute = require("./routes/users");
 const courseRoute = require("./routes/courses");
 const uploadRoute = require("./routes/upload");
 const noticeRoute = require("./routes/notices");
-//const assignmentRoute = require("./routes/assignments");
+const assignmentRoute = require("./routes/assignments");
 
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
@@ -38,7 +38,7 @@ app.use("/users", userRoute);
 app.use("/courses", courseRoute);
 app.use("/uploads", uploadRoute);
 app.use("/notices", noticeRoute);
-//app.use("/assignments", assignmentRoute);
+app.use("/assignments", assignmentRoute);
 
 //error handling
 app.use((req, res, next) => {

@@ -20,10 +20,13 @@ const assignmentSchema = new Schema(
       type: String
     },
     assignment_deadline: {
-      type: Date
+      type: String
     },
     assignment_publish_date: {
-      type: Date
+      type: String
+    },
+    assignment_file: {
+      type: String
     }
   },
   {
