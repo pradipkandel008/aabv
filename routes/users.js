@@ -1,35 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const path = require("path");
 const auth = require("../middleware/auth");
-
-const storage = multer.diskStorage({
-  destination: function(req, res, cb) {
-    cb(null, "./uploads");
-  },
-  filename: function(req, file, cb) {
-    let ext = path.extname(file.originalname);
-    cb(null, "user" + Date.now() + file.originalname);
-  }
-});
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-    //accept
-    cb(null, true);
-  } else {
-    //reject a file
-    cb(new Error("File format not supported"), false);
-  }
-};
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 10 //10MB
-  },
-  fileFilter: fileFilter
-});
 
 const User = require("../models/users");
 
@@ -101,6 +72,35 @@ router.post("/logout", auth, async (req, res) => {
   } catch (e) {
     res.status(500).send();
   }
+});
+
+router.put("/updateUser/:id", auth, function(req, res) {
+  uid = req.body.id;
+  User.update(
+    { _id: uid },
+    {
+      $set: {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        gender: req.body.gender,
+        batch: req.body.batch,
+        section: req.body.section,
+        user_name: req.body.user_name,
+        password: req.body.password
+      }
+    }
+  )
+    .then(function(user) {
+      res.status(201).json({
+        message: "User Details Updated Successfully"
+      });
+    })
+    .catch(function(e) {
+      res.status(422).json({
+        message: "Unable to Update:" + e
+      });
+    });
 });
 
 module.exports = router;
