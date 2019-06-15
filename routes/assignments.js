@@ -65,7 +65,9 @@ router.post("/", upload.single("assignment_file"), (req, res) => {
 });
 
 router.get("/", function(req, res) {
-  Assignment.find()
+  Assignment.find({})
+    .sort({ createdAt: -1 }) //sort in descending order
+    .exec()
     .then(function(assignment) {
       res.send(assignment);
     })

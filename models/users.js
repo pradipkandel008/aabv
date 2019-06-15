@@ -13,10 +13,10 @@ const userSchema = new Schema(
       //required: true
     },
     email: {
-      required: true,
-      type: String,
-      unique: true,
-      match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+      type: String
+    },
+    gender: {
+      type: String
     },
     batch: {
       type: String
@@ -24,13 +24,14 @@ const userSchema = new Schema(
     section: {
       type: String
     },
+    user_image: {
+      type: String
+    },
     user_name: {
       type: String
-      //required: true
     },
     password: {
-      type: String,
-      required: true
+      type: String
     },
     user_type: {
       type: String
