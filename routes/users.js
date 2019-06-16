@@ -58,10 +58,12 @@ router.post("/login", async function(req, res) {
     req.body.password
   );
   const token = await user.generateAuthToken();
+  var modelUser = JSON.stringify(user);
   res.status(201).json({
     token: token,
     user: user
   });
+  res.end(modelUser);
 });
 
 router.post("/logout", auth, async (req, res) => {
@@ -100,6 +102,21 @@ router.put("/updateUser/:id", auth, function(req, res) {
       res.status(422).json({
         message: "Unable to Update:" + e
       });
+    });
+});
+
+router.post("/getuser", (req, res) => {
+  var user_name = req.body.user_name;
+  var password = req.body.password;
+  User.find({ user_name: user_name, password: password })
+    .then(function(user) {
+      var modelUser = JSON.stringify(user);
+      console.log(modelUser);
+      res.writeHead(200, { "Content-type": "application/json" });
+      res.end(modelUser);
+    })
+    .catch(function(e) {
+      res.send(e);
     });
 });
 
