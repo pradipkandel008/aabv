@@ -58,12 +58,31 @@ router.post("/login", async function(req, res) {
     req.body.password
   );
   const token = await user.generateAuthToken();
-  var modelUser = JSON.stringify(user);
-  res.status(201).json({
-    token: token,
-    user: user
-  });
-  res.end(modelUser);
+  //const message = await user.message;
+  if (user) {
+    res.status(201).json({
+      token: token,
+      user: user,
+      id: user._id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      gender: user.gender,
+      batch: user.batch,
+      section: user.section,
+      user_name: user.user_name,
+      user_image: user.user_image,
+      user_type: user.user_type,
+      password: user.password
+    });
+  }
+  if (!user) {
+    res.status(201).json({
+      message: message
+    });
+  }
+
+  //res.end(modelUser);
 });
 
 router.post("/logout", auth, async (req, res) => {

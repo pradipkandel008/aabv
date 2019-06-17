@@ -2,8 +2,9 @@ const express = require("express");
 const router = express.Router();
 const moment = require("moment");
 const Notice = require("../models/notices");
+const auth = require("../middleware/auth");
 
-router.post("/", (req, res) => {
+router.post("/", auth, (req, res) => {
   const notice = new Notice({
     notice_title: req.body.notice_title,
     notice_subject: req.body.notice_subject,
@@ -48,7 +49,7 @@ router.get("/:id", function(req, res) {
     });
 });
 
-router.delete("/deleteNotice/:id", (req, res) => {
+router.delete("/deleteNotice/:id", auth, (req, res) => {
   Notice.findByIdAndDelete(req.params.id)
     .then(function(result) {
       console.log("Notice Deleted Successfully");

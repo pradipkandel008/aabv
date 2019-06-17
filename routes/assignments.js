@@ -4,6 +4,8 @@ const moment = require("moment");
 const Assignment = require("../models/assignments");
 const multer = require("multer");
 const path = require("path");
+var fs = require("fs");
+const auth = require("../middleware/auth");
 
 const storage = multer.diskStorage({
   destination: function(req, res, cb) {
@@ -37,7 +39,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.post("/", upload.single("assignment_file"), (req, res) => {
+router.post("/", auth, upload.single("assignment_file"), (req, res) => {
   const assignment = new Assignment({
     module_code: req.body.module_code,
     module_name: req.body.module_name,
@@ -98,7 +100,7 @@ router.get("/:id", function(req, res) {
     });
 }); */
 
-router.delete("/deleteAssignment/:id", (req, res) => {
+/* router.delete("/deleteAssignment/:id", (req, res) => {
   Assignment.findByIdAndDelete(req.params.id)
     .then(function(result) {
       console.log("Assignment Deleted Successfully");
@@ -109,6 +111,27 @@ router.delete("/deleteAssignment/:id", (req, res) => {
     .catch(function(e) {
       console.log(e);
     });
+}); */
+
+router.delete("/deleteAssignment/:id", auth, (req, res) => {
+  Assignment.findById(req.params.id).then(assignment => {
+    let path = assignment.assignment_file;
+    fs.unlink(path, err => {
+      if (err) console.log(err);
+    });
+    //uploads\assignment1560507923408Testing.pdf"
+    assignment
+      .delete()
+      .then(function(result) {
+        console.log("Assignment Deleted Successfully");
+        res.status(201).json({
+          message: "Assignment Deleted Successfully"
+        });
+      })
+      .catch(function(e) {
+        console.log(e);
+      });
+  });
 });
 
 module.exports = router;

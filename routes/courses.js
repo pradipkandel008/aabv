@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
+const auth = require("../middleware/auth");
 
 const storage = multer.diskStorage({
   destination: function(req, res, cb) {
@@ -32,7 +34,7 @@ const upload = multer({
 
 const Course = require("../models/courses");
 
-router.post("/", upload.single("course_image"), (req, res) => {
+router.post("/", auth, upload.single("course_image"), (req, res) => {
   const course = new Course({
     course_name: req.body.course_name,
     course_duration: req.body.course_duration,
@@ -77,12 +79,33 @@ router.get("/:id", function(req, res) {
     });
 });
 
-router.put("/updateCourse/:id", function(req, res) {
-  uid = req.params.id.toString();
-  Course.findByIdAndUpdate(uid, req.body, { new: true })
+router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
+  req,
+  res
+) {
+  id = req.params.id.toString();
+  Course.findById(id).then(course => {
+    let path = course.course_image;
+    fs.unlink(path, err => {
+      if (err) console.log(err);
+    });
+  });
+  Course.update(
+    { _id: id },
+    {
+      $set: {
+        course_name: req.body.course_name,
+        course_duration: req.body.course_duration,
+        course_price: req.body.course_price,
+        course_modules: req.body.course_modules,
+        course_desc: req.body.course_desc,
+        course_image: req.file.path
+      }
+    }
+  )
     .then(function(course) {
       res.status(201).json({
-        message: course
+        message: "Course Updated Successfully"
       });
     })
     .catch(function(e) {
@@ -91,7 +114,7 @@ router.put("/updateCourse/:id", function(req, res) {
     });
 });
 
-router.delete("/deleteCourse/:id", (req, res) => {
+/* router.delete("/deleteCourse/:id", (req, res) => {
   Course.findByIdAndDelete(req.params.id)
     .then(function(result) {
       console.log("Deleted Successfully");
@@ -102,6 +125,25 @@ router.delete("/deleteCourse/:id", (req, res) => {
     .catch(function(e) {
       console.log(e);
     });
+}); */
+router.delete("/deleteCourse/:id", auth, (req, res) => {
+  Course.findById(req.params.id).then(course => {
+    let path = course.course_image;
+    fs.unlink(path, err => {
+      if (err) console.log(err);
+    });
+    course
+      .delete()
+      .then(function(result) {
+        console.log("Course Deleted Successfully");
+        res.status(201).json({
+          message: "Course Deleted Successfully"
+        });
+      })
+      .catch(function(e) {
+        console.log(e);
+      });
+  });
 });
 
 module.exports = router;

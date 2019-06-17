@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   },
   filename: function(req, file, cb) {
     let ext = path.extname(file.originalname);
-    cb(null, "newuser" + Date.now() + file.originalname);
+    cb(null, "user" + Date.now() + file.originalname);
   }
 });
 
@@ -32,13 +32,6 @@ const upload = multer({
 });
 
 var uploadRouter = express.Router();
-
-/* uploadRouter.route("/").post(upload.single("user_image"), (req, res) => {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  res.json(req.file);
-  console.log(req.file);
-}); */
 
 uploadRouter.put("/updateUserImage/:id", upload.single("user_image"), function(
   req,

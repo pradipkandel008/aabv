@@ -53,17 +53,18 @@ const userSchema = new Schema(
 userSchema.statics.checkCrediantialsDb = async (user, password) => {
   const user1 = await User.findOne({ user_name: user, password: password });
   if (user1) {
-    console.log(user1);
     return user1;
   } else {
     console.log("auth failed");
+    var message = "Invalid username or password";
+    return message;
   }
 };
 
 userSchema.methods.generateAuthToken = async function() {
   const user = this;
   const token = jwt.sign({ _id: user._id.toString() }, "collegeapp", {
-    expiresIn: "1h"
+    expiresIn: "24h"
   });
   console.log(token);
   user.tokens = user.tokens.concat({ token: token });
