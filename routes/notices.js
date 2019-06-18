@@ -49,6 +49,12 @@ router.get("/:id", function(req, res) {
     });
 });
 
+/* Notice.find().countDocuments(function(err, count) {
+  router.get("/noti", function(req, res) {
+    res.json(count);
+  });
+}); */
+
 router.delete("/deleteNotice/:id", auth, (req, res) => {
   Notice.findByIdAndDelete(req.params.id)
     .then(function(result) {
@@ -58,6 +64,30 @@ router.delete("/deleteNotice/:id", auth, (req, res) => {
       });
     })
     .catch(function(e) {
+      console.log(e);
+    });
+});
+
+router.put("/updateNotice/:id", auth, function(req, res) {
+  id = req.params.id.toString();
+
+  Notice.update(
+    { _id: id },
+    {
+      $set: {
+        notice_title: req.body.notice_title,
+        notice_subject: req.body.notice_subject,
+        notice_desc: req.body.notice_desc
+      }
+    }
+  )
+    .then(function(notice) {
+      res.status(201).json({
+        message: "Notice Updated Successfully"
+      });
+    })
+    .catch(function(e) {
+      res.send(e);
       console.log(e);
     });
 });

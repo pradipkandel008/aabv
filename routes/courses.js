@@ -61,6 +61,8 @@ router.post("/", auth, upload.single("course_image"), (req, res) => {
 
 router.get("/", function(req, res) {
   Course.find()
+    .sort({ createdAt: -1 }) //sort in descending order
+    .exec()
     .then(function(course) {
       res.send(course);
     })
@@ -71,6 +73,7 @@ router.get("/", function(req, res) {
 
 router.get("/:id", function(req, res) {
   Course.findById(req.params.id)
+
     .then(function(course) {
       res.send(course);
     })
@@ -84,12 +87,15 @@ router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
   res
 ) {
   id = req.params.id.toString();
-  Course.findById(id).then(course => {
-    let path = course.course_image;
-    fs.unlink(path, err => {
-      if (err) console.log(err);
+  if (req.file.path != null) {
+    Course.findById(id).then(course => {
+      let path = course.course_image;
+      fs.unlink(path, err => {
+        if (err) console.log(err);
+      });
     });
-  });
+  }
+
   Course.update(
     { _id: id },
     {
@@ -113,6 +119,12 @@ router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
       console.log(e);
     });
 });
+
+/* Course.find().countDocuments(function(err, count) {
+  router.get("/cours", function(req, res) {
+    res.json({ count: count });
+  });
+}); */
 
 /* router.delete("/deleteCourse/:id", (req, res) => {
   Course.findByIdAndDelete(req.params.id)

@@ -78,27 +78,21 @@ router.get("/", function(req, res) {
     });
 });
 
-/* router.get("/", function(req, res) {
-  Notice.find({})
-    .sort({ createdAt: -1 }) //sort in descending order
-    .exec()
-    .then(function(notice) {
-      res.send(notice);
+/* Assignment.find({}).countDocuments(function(err, count) {
+  router.get("/assign", function(req, res) {
+    res.json(count);
+  });
+}); */
+
+router.get("/:id", function(req, res) {
+  Assignment.findById(req.params.id)
+    .then(function(assignment) {
+      res.send(assignment);
     })
     .catch(function(e) {
       res.send(e);
     });
 });
-
-router.get("/:id", function(req, res) {
-  Notice.findById(req.params.id)
-    .then(function(notice) {
-      res.send(notice);
-    })
-    .catch(function(e) {
-      res.send(e);
-    });
-}); */
 
 /* router.delete("/deleteAssignment/:id", (req, res) => {
   Assignment.findByIdAndDelete(req.params.id)
@@ -119,7 +113,6 @@ router.delete("/deleteAssignment/:id", auth, (req, res) => {
     fs.unlink(path, err => {
       if (err) console.log(err);
     });
-    //uploads\assignment1560507923408Testing.pdf"
     assignment
       .delete()
       .then(function(result) {
@@ -133,5 +126,45 @@ router.delete("/deleteAssignment/:id", auth, (req, res) => {
       });
   });
 });
+
+router.put(
+  "/updateAssignment/:id",
+  auth,
+  upload.single("assignment_file"),
+  function(req, res) {
+    id = req.params.id.toString();
+    if (req.file.path != null) {
+      Assignment.findById(id).then(assignment => {
+        let path = assignment.assignment_file;
+        fs.unlink(path, err => {
+          if (err) console.log(err);
+        });
+      });
+    }
+
+    Assignment.update(
+      { _id: id },
+      {
+        $set: {
+          module_code: req.body.module_code,
+          module_name: req.body.module_name,
+          assignment_no: req.body.assignment_no,
+          assignment_desc: req.body.assignment_desc,
+          assignment_deadline: req.body.assignment_deadline,
+          assignment_file: req.file.path
+        }
+      }
+    )
+      .then(function(assignment) {
+        res.status(201).json({
+          message: "Assignment Updated Successfully"
+        });
+      })
+      .catch(function(e) {
+        res.send(e);
+        console.log(e);
+      });
+  }
+);
 
 module.exports = router;

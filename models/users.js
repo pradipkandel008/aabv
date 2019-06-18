@@ -54,10 +54,6 @@ userSchema.statics.checkCrediantialsDb = async (user, password) => {
   const user1 = await User.findOne({ user_name: user, password: password });
   if (user1) {
     return user1;
-  } else {
-    console.log("auth failed");
-    var message = "Invalid username or password";
-    return message;
   }
 };
 

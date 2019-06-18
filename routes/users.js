@@ -10,7 +10,7 @@ router.post("/register", (req, res) => {
     .then(user => {
       if (user.length >= 1) {
         res.status(201).json({
-          message: "Mail already exists"
+          message_error: "Mail already exists"
         });
       } else {
         const user = new User({
@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
           .then(result => {
             console.log(result);
             res.status(201).json({
-              message: "Register Successful"
+              message_success: "Register Successful"
             });
           })
           .catch(err => {
@@ -52,34 +52,51 @@ router.get("/me", auth, function(req, res) {
   res.send(req.user);
 });
 
+User.find({ user_type: "user" }).countDocuments(function(err, count) {
+  router.get("/", function(req, res) {
+    res.json(count);
+  });
+});
+User.find({ user_type: "admin" }).countDocuments(function(err, count) {
+  router.get("/admins", function(req, res) {
+    res.json(count);
+    console.log(count);
+  });
+});
+
 router.post("/login", async function(req, res) {
-  const user = await User.checkCrediantialsDb(
-    req.body.user_name,
-    req.body.password
-  );
-  const token = await user.generateAuthToken();
-  //const message = await user.message;
-  if (user) {
-    res.status(201).json({
-      token: token,
-      user: user,
-      id: user._id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      gender: user.gender,
-      batch: user.batch,
-      section: user.section,
-      user_name: user.user_name,
-      user_image: user.user_image,
-      user_type: user.user_type,
-      password: user.password
-    });
-  }
-  if (!user) {
-    res.status(201).json({
-      message: message
-    });
+  try {
+    const user = await User.checkCrediantialsDb(
+      req.body.user_name,
+      req.body.password
+    );
+    //const message = await user.message;
+    if (user) {
+      // console.log("We are here");
+      console.log(user);
+      const token = await user.generateAuthToken();
+      res.status(201).json({
+        token: token,
+        user: user,
+        id: user._id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        gender: user.gender,
+        batch: user.batch,
+        section: user.section,
+        user_name: user.user_name,
+        user_image: user.user_image,
+        user_type: user.user_type,
+        password: user.password
+      });
+    } else {
+      res.json({
+        message: "Username and Password do not match or do not exist."
+      });
+    }
+  } catch (e) {
+    console.log(e);
   }
 
   //res.end(modelUser);

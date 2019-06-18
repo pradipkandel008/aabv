@@ -52,6 +52,12 @@ router.get("/", function(req, res) {
     });
 });
 
+/* Submission.find({}).countDocuments(function(err, count) {
+  router.get("/sub", function(req, res) {
+    res.json(count);
+  });
+}); */
+
 router.post(
   "/addSubmission",
   auth,
