@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const fs = require("fs");
 
 const User = require("../models/users");
 
@@ -153,6 +154,34 @@ router.post("/getuser", (req, res) => {
     })
     .catch(function(e) {
       res.send(e);
+    });
+});
+
+router.put("/updateImage/:id", function(req, res) {
+  id = req.body.id;
+  /* if (req.body.user_image != null) {
+    User.findById(id).then(user => {
+      let path = user.user_image;
+      fs.unlink(path, err => {
+        if (err) console.log(err);
+      });
+    });
+  } */
+  User.findByIdAndUpdate(
+    { _id: id },
+    { $set: { user_image: req.body.user_image } }
+  )
+    .then(function(user) {
+      console.log("Image uploaded to database");
+
+      res.status(201).json({
+        message: "Upload Success"
+      });
+    })
+    .catch(function(e) {
+      res.status(422).json({
+        message: "Unable to Update:" + e
+      });
     });
 });
 

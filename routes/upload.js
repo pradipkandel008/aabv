@@ -3,6 +3,7 @@ var multer = require("multer");
 var path = require("path");
 const auth = require("../middleware/auth");
 const User = require("../models/users");
+const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function(req, res, cb) {
@@ -37,8 +38,19 @@ uploadRouter.put("/updateUserImage/:id", upload.single("user_image"), function(
   req,
   res
 ) {
-  uid = req.body.id;
-  User.update({ _id: uid }, { $set: { user_image: req.file.path } })
+  console.log("in here");
+  id = req.body.id;
+  if (req.file.path != null) {
+    User.findById(id).then(user => {
+      let path = user.user_image;
+      fs.unlink(path, err => {
+        if (err) console.log(err);
+      });
+    });
+  }
+  console.log("FIle" + req.file.path);
+
+  User.update({ _id: id }, { $set: { user_image: req.file.path } })
     .then(function(user) {
       res.status(201).json({
         message: "Image Uploaded Successfully"
