@@ -158,7 +158,7 @@ router.post("/getuser", (req, res) => {
 });
 
 router.put("/updateImage/:id", function(req, res) {
-  id = req.body.id;
+  id = req.params.id;
   /* if (req.body.user_image != null) {
     User.findById(id).then(user => {
       let path = user.user_image;
@@ -167,9 +167,11 @@ router.put("/updateImage/:id", function(req, res) {
       });
     });
   } */
-  User.findByIdAndUpdate(
-    { _id: id },
-    { $set: { user_image: req.body.user_image } }
+  User.update(
+    { _id: req.params.id },
+    {
+      $set: { user_image: req.body.user_image }
+    }
   )
     .then(function(user) {
       console.log("Image uploaded to database");
@@ -179,6 +181,7 @@ router.put("/updateImage/:id", function(req, res) {
       });
     })
     .catch(function(e) {
+      console.log(e);
       res.status(422).json({
         message: "Unable to Update:" + e
       });

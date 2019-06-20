@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
   },
   filename: function(req, file, cb) {
     let ext = path.extname(file.originalname);
-    cb(null, file.originalname + Date.now());
+    cb(null, "submission" + Date.now() + file.originalname);
   }
 });
 
@@ -44,6 +44,15 @@ router.get("/", function(req, res) {
   Submission.find({})
     .sort({ createdAt: -1 }) //sort in descending order
     .exec()
+    .then(function(submission) {
+      res.send(submission);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+router.get("/:id", function(req, res) {
+  Submission.findById(req.params.id)
     .then(function(submission) {
       res.send(submission);
     })
@@ -127,5 +136,44 @@ router.delete("/deleteSubmission/:id", (req, res) => {
       });
   });
 });
+
+router.put(
+  "/updateSubmission/:id",
+  auth,
+  upload.single("assignment_file_user"),
+  function(req, res) {
+    id = req.params.id.toString();
+    if (req.file.path != null) {
+      Submission.findById(id).then(submission => {
+        let path = submission.assignment_file_user;
+        fs.unlink(path, err => {
+          if (err) console.log(err);
+        });
+      });
+    }
+    var datenow = moment();
+
+    Submission.update(
+      { _id: id },
+      {
+        $set: {
+          assignment_title: req.body.assignment_title,
+          assignment_links: req.body.assignment_links,
+          assignment_file_user: req.file.path,
+          assignment_submitted_date: moment()
+        }
+      }
+    )
+      .then(function(submission) {
+        res.status(201).json({
+          message: "Assignment Submission Updated Successfully"
+        });
+      })
+      .catch(function(e) {
+        res.send(e);
+        console.log(e);
+      });
+  }
+);
 
 module.exports = router;
