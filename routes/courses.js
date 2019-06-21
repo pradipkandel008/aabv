@@ -82,6 +82,17 @@ router.get("/:id", function(req, res) {
     });
 });
 
+/* router.get("/getAllCourses", (req, res) => {
+  Course.find()
+    .then(function(course) {
+      res.status(201).json({ course: course });
+      console.log(course);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+}); */
+
 router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
   req,
   res

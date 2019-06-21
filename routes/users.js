@@ -142,15 +142,48 @@ router.put("/updateUser/:id", auth, function(req, res) {
     });
 });
 
-router.post("/getuser", (req, res) => {
-  var user_name = req.body.user_name;
-  var password = req.body.password;
-  User.find({ user_name: user_name, password: password })
+router.put("/updateUserAndroid/:id", function(req, res) {
+  uid = req.params.id;
+  User.update(
+    { _id: uid },
+    {
+      $set: {
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        gender: req.body.gender,
+        batch: req.body.batch,
+        section: req.body.section,
+        user_name: req.body.user_name,
+        password: req.body.password
+      }
+    }
+  )
     .then(function(user) {
-      var modelUser = JSON.stringify(user);
-      console.log(modelUser);
-      res.writeHead(200, { "Content-type": "application/json" });
-      res.end(modelUser);
+      res.status(201).json({
+        message: "User Details Updated Successfully"
+      });
+    })
+    .catch(function(e) {
+      res.status(422).json({
+        message: "Unable to Update:" + e
+      });
+    });
+});
+
+router.get("/getAllUser", (req, res) => {
+  User.find({ user_type: "user" })
+    .then(function(user) {
+      res.send(user);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+router.get("/getAllAdmin", (req, res) => {
+  User.find({ user_type: "admin" })
+    .then(function(user) {
+      res.send(user);
     })
     .catch(function(e) {
       res.send(e);
@@ -159,14 +192,15 @@ router.post("/getuser", (req, res) => {
 
 router.put("/updateImage/:id", function(req, res) {
   id = req.params.id;
-  /* if (req.body.user_image != null) {
+  if (req.body.user_image != null) {
     User.findById(id).then(user => {
       let path = user.user_image;
       fs.unlink(path, err => {
         if (err) console.log(err);
       });
     });
-  } */
+  }
+  console.log(req.body.user_image);
   User.update(
     { _id: req.params.id },
     {

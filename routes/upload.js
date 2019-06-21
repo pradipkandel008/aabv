@@ -39,6 +39,7 @@ uploadRouter.put("/updateUserImage/:id", upload.single("user_image"), function(
   res
 ) {
   id = req.params.id;
+  console.log(req.file.path);
   if (req.file.path != null) {
     User.findById(id).then(user => {
       let path = user.user_image;
