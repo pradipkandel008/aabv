@@ -52,7 +52,7 @@ router.get("/", function(req, res) {
     });
 });
 router.get("/:id", function(req, res) {
-  Submission.findById(req.params.id)
+  Submission.find({ assignment_id: req.params.id })
     .then(function(submission) {
       res.send(submission);
     })

@@ -26,5 +26,16 @@ router.post("/", (req, res) => {
       });
     });
 });
+router.get("/", function(req, res) {
+  Enquire.find({})
+    .sort({ createdAt: -1 }) //sort in descending order
+    .exec()
+    .then(function(enquire) {
+      res.send(enquire);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
 
 module.exports = router;

@@ -1,11 +1,13 @@
 const mongoose = require("mongoose");
 const moment = require("moment");
 const Schema = mongoose.Schema;
+const User = require("./users");
 
 const submissionSchema = new Schema(
   {
     user_id: {
-      type: String
+      type: Schema.Types.ObjectId,
+      ref: "User"
       // required: true
     },
     assignment_id: {

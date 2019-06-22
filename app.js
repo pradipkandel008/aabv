@@ -1,11 +1,8 @@
-const mongoose = require("./dbHelper/mongoose");
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const jwt = require("jsonwebtoken");
-const auth = require("./middleware/auth");
-const Enquire = require("./models/enquires");
+const mongoose = require("./dbHelper/mongoose");
 
 const userRoute = require("./routes/users");
 const courseRoute = require("./routes/courses");
@@ -15,6 +12,8 @@ const assignmentRoute = require("./routes/assignments");
 const submissionRoute = require("./routes/submissions");
 const uploadImageRoute = require("./routes/uploadImage");
 const enquireRoute = require("./routes/enquires");
+const feedbackRoute = require("./routes/feedbacks");
+const moduleRoute = require("./routes/modules");
 
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
@@ -46,6 +45,8 @@ app.use("/assignments", assignmentRoute);
 app.use("/submissions", submissionRoute);
 app.use("/uploadImage", uploadImageRoute);
 app.use("/enquires", enquireRoute);
+app.use("/feedbacks", feedbackRoute);
+app.use("/modules", moduleRoute);
 
 //error handling
 app.use((req, res, next) => {
