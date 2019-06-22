@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const auth = require("./middleware/auth");
+const Enquire = require("./models/enquires");
 
 const userRoute = require("./routes/users");
 const courseRoute = require("./routes/courses");
@@ -13,6 +14,7 @@ const noticeRoute = require("./routes/notices");
 const assignmentRoute = require("./routes/assignments");
 const submissionRoute = require("./routes/submissions");
 const uploadImageRoute = require("./routes/uploadImage");
+const enquireRoute = require("./routes/enquires");
 
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
@@ -43,6 +45,7 @@ app.use("/notices", noticeRoute);
 app.use("/assignments", assignmentRoute);
 app.use("/submissions", submissionRoute);
 app.use("/uploadImage", uploadImageRoute);
+app.use("/enquires", enquireRoute);
 
 //error handling
 app.use((req, res, next) => {
@@ -60,10 +63,4 @@ app.use((error, req, res, next) => {
   });
 });
 
-/* function generateToken() {
-  const token = jwt.sign({ _id: "userid" }, "mysecretkey");
-  console.log(token);
-}
-
-generateToken(); */
 module.exports = app;
