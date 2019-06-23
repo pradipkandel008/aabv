@@ -128,7 +128,7 @@ router.put("/moduleFile/", auth, upload.single("topic_file"), function(
           { module_code: req.body.module_code },
           {
             $set: {
-              topic1: req.file.filename
+              topic1: req.file.path
             }
           }
         )
