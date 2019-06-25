@@ -14,6 +14,7 @@ const uploadImageRoute = require("./routes/uploadImage");
 const enquireRoute = require("./routes/enquires");
 const feedbackRoute = require("./routes/feedbacks");
 const moduleRoute = require("./routes/modules");
+const submissionRouteUser=require("./routes/uploadSubmissionFile");
 
 app.use(morgan("dev"));
 app.use("/uploads", express.static("uploads"));
@@ -47,6 +48,7 @@ app.use("/uploadImage", uploadImageRoute);
 app.use("/enquires", enquireRoute);
 app.use("/feedbacks", feedbackRoute);
 app.use("/modules", moduleRoute);
+app.use("/fileSubmit",submissionRouteUser);
 
 //error handling
 app.use((req, res, next) => {

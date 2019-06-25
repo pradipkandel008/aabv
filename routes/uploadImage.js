@@ -28,11 +28,11 @@ var upload = multer({
 var router = express.Router();
 
 router.route("/").post(upload.single("user_image"), (req, res) => {
-  console.log(ImagefileName);
+  //console.log(ImagefileName);
   var resPonseFilename = JSON.stringify({
     user_image: ImagefileName
   });
-  console.log(resPonseFilename);
+  //console.log(resPonseFilename);
   res.writeHead(200, { "Content-Type": "application/json" });
   res.end(
     JSON.stringify(

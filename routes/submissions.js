@@ -176,4 +176,49 @@ router.put(
   }
 );
 
+router.post("/addSubmissionAndroid", (req, res) => {
+  Submission.find({
+    user_id: req.body.user_id,
+    assignment_id: req.body.assignment_id
+  })
+    .exec()
+    .then(submission => {
+      if (submission.length >= 1) {
+        res.status(201).json({
+          err_message: "File already submitted"
+        });
+      } else {
+        const submission = new Submission({
+          user_id: req.body.user_id,
+          assignment_id: req.body.assignment_id,
+          assignment_title: req.body.assignment_title,
+          assignment_links: req.body.assignment_links,
+          assignment_file_user: req.body.assignment_file_user,
+          assignment_submitted_date: moment()
+        });
+
+        submission
+          .save()
+          .then(result => {
+            console.log(result);
+            res.status(201).json({
+              suc_message: "Assignment Submitted Successfully"
+            });
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(500).json({
+              message: err
+            });
+          });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: err
+      });
+    });
+});
+
 module.exports = router;
