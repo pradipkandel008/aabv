@@ -6,13 +6,13 @@ const User = require("./users");
 const submissionSchema = new Schema(
   {
     user_id: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User"
       // required: true
     },
     assignment_id: {
-      type: String
-      //required:true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Assignment"
     },
     assignment_title: {
       type: String
@@ -25,6 +25,9 @@ const submissionSchema = new Schema(
       type: String
     },
     assignment_submitted_date: {
+      type: String
+    },
+    assign_id: {
       type: String
     }
   },

@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 const feedbackSchema = new Schema(
   {
     u_id: {
-      type: String
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     },
     feedback: {
       type: String

@@ -43,6 +43,8 @@ const upload = multer({
 router.get("/", function(req, res) {
   Submission.find({})
     .sort({ createdAt: -1 }) //sort in descending order
+    .populate("user_id")
+    .populate("assignment_id")
     .exec()
     .then(function(submission) {
       res.send(submission);
@@ -51,8 +53,11 @@ router.get("/", function(req, res) {
       res.send(e);
     });
 });
+
 router.get("/:id", function(req, res) {
-  Submission.find({ assignment_id: req.params.id })
+  Submission.find({ assign_id: req.params.id })
+    .populate("user_id")
+    .populate("assignment_id")
     .then(function(submission) {
       res.send(submission);
     })
@@ -89,7 +94,8 @@ router.post(
             assignment_title: req.body.assignment_title,
             assignment_links: req.body.assignment_links,
             assignment_file_user: req.file.path,
-            assignment_submitted_date: moment()
+            assignment_submitted_date: moment(),
+            assign_id: req.body.assignment_id
           });
 
           submission

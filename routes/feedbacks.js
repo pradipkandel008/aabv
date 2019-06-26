@@ -28,6 +28,7 @@ router.post("/", auth, (req, res) => {
 router.get("/", function(req, res) {
   Feedback.find({})
     .sort({ createdAt: -1 }) //sort in descending order
+    .populate("u_id")
     .exec()
     .then(function(feedback) {
       res.send(feedback);
