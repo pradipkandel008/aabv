@@ -54,10 +54,33 @@ router.get("/", function(req, res) {
     });
 });
 
+router.get("/submissions/Android", function(req, res) {
+  Submission.find({})
+    .sort({ createdAt: -1 }) //sort in descending order
+    .exec()
+    .then(function(submission) {
+      res.send(submission);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+
 router.get("/:id", function(req, res) {
-  Submission.find({ assign_id: req.params.id })
+  Submission.find({ assign_id: req.body.id })
     .populate("user_id")
     .populate("assignment_id")
+    .then(function(submission) {
+      res.send(submission);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+
+router.get("/android/:id", function(req, res) {
+  uid = req.params.id;
+  Submission.find({ u_id: uid })
     .then(function(submission) {
       res.send(submission);
     })
@@ -78,7 +101,7 @@ router.post(
   upload.single("assignment_file_user"),
   (req, res) => {
     Submission.find({
-      user_id: req.body.user_id,
+      u_id: req.body.user_id,
       assignment_id: req.body.assignment_id
     })
       .exec()
@@ -95,7 +118,8 @@ router.post(
             assignment_links: req.body.assignment_links,
             assignment_file_user: req.file.path,
             assignment_submitted_date: moment(),
-            assign_id: req.body.assignment_id
+            assign_id: req.body.assignment_id,
+            u_id: req.body.user_id
           });
 
           submission
@@ -123,7 +147,7 @@ router.post(
   }
 );
 
-router.delete("/deleteSubmission/:id", (req, res) => {
+router.delete("/deleteSubmission/:id", auth, (req, res) => {
   Submission.findById(req.params.id).then(submission => {
     let path = submission.assignment_file_user;
     fs.unlink(path, err => {
@@ -132,7 +156,6 @@ router.delete("/deleteSubmission/:id", (req, res) => {
     submission
       .delete()
       .then(function(result) {
-        console.log("Assignment Submission Deleted Successfully");
         res.status(201).json({
           message: "Assignment Submission Deleted Successfully"
         });
@@ -200,7 +223,10 @@ router.post("/addSubmissionAndroid", (req, res) => {
           assignment_title: req.body.assignment_title,
           assignment_links: req.body.assignment_links,
           assignment_file_user: req.body.assignment_file_user,
-          assignment_submitted_date: moment()
+          assignment_submitted_date: moment(),
+
+          assign_id: req.body.assignment_id,
+          u_id: req.body.user_id
         });
 
         submission
@@ -227,4 +253,18 @@ router.post("/addSubmissionAndroid", (req, res) => {
     });
 });
 
+router.delete("/deleteSubmission/Android/:id", (req, res) => {
+  Submission.findById(req.params.id).then(submission => {
+    submission
+      .delete()
+      .then(function(result) {
+        res.status(201).json({
+          message: "Assignment Submission Deleted Successfully"
+        });
+      })
+      .catch(function(e) {
+        console.log(e);
+      });
+  });
+});
 module.exports = router;

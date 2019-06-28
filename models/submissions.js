@@ -29,6 +29,9 @@ const submissionSchema = new Schema(
     },
     assign_id: {
       type: String
+    },
+    u_id: {
+      type: String
     }
   },
   {
