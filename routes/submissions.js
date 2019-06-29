@@ -253,6 +253,30 @@ router.post("/addSubmissionAndroid", (req, res) => {
     });
 });
 
+router.put("/updateSubmissionAndroid/:id", (req, res) => {
+  sid = req.params.id;
+  Submission.update(
+    { _id: sid },
+    {
+      $set: {
+        assignment_title: req.body.assignment_title,
+        assignment_links: req.body.assignment_links,
+        assignment_file_user: req.body.assignment_file_user,
+        assignment_submitted_date: moment()
+      }
+    }
+  )
+    .then(function(submission) {
+      res.status(201).json({
+        suc_message: "Assignment Submission Updated Successfully"
+      });
+    })
+    .catch(function(e) {
+      res.send(e);
+      console.log(e);
+    });
+});
+
 router.delete("/deleteSubmission/Android/:id", (req, res) => {
   Submission.findById(req.params.id).then(submission => {
     submission
