@@ -51,4 +51,51 @@ router.delete("/deleteFeedback/:id", auth, (req, res) => {
     });
 });
 
+router.post("/feedbacks/Android", (req, res) => {
+  const feedback = new Feedback({
+    u_id: req.body.u_id,
+    feedback: req.body.feedback
+  });
+  feedback
+    .save()
+    .then(result => {
+      res.status(201).json({
+        suc_message: "Feedback Posted Successfully"
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        message: err
+      });
+    });
+});
+
+router.get("/Android/:id", function(req, res) {
+  var uid = req.params.id;
+  Feedback.find({ u_id: uid })
+    .sort({ createdAt: -1 }) //sort in descending order
+    .populate("u_id")
+    .exec()
+    .then(function(feedback) {
+      res.send(feedback);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+
+router.delete("/deleteFeedback/Android/:id", (req, res) => {
+  Feedback.findByIdAndDelete(req.params.id)
+    .then(function(result) {
+      console.log("Feedback Deleted Successfully");
+      res.status(201).json({
+        message: "Feedback Deleted Successfully"
+      });
+    })
+    .catch(function(e) {
+      console.log(e);
+    });
+});
+
 module.exports = router;
