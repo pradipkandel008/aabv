@@ -67,9 +67,18 @@ router.get("/submissions/Android", function(req, res) {
 });
 
 router.get("/:id", function(req, res) {
-  Submission.find({ assign_id: req.body.id })
+  Submission.find({ assign_id: req.params.id })
     .populate("user_id")
     .populate("assignment_id")
+    .then(function(submission) {
+      res.send(submission);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+router.get("/update/:id", function(req, res) {
+  Submission.findById(req.params.id)
     .then(function(submission) {
       res.send(submission);
     })
@@ -88,12 +97,6 @@ router.get("/android/:id", function(req, res) {
       res.send(e);
     });
 });
-
-/* Submission.find({}).countDocuments(function(err, count) {
-  router.get("/sub", function(req, res) {
-    res.json(count);
-  });
-}); */
 
 router.post(
   "/addSubmission",
@@ -117,7 +120,7 @@ router.post(
             assignment_title: req.body.assignment_title,
             assignment_links: req.body.assignment_links,
             assignment_file_user: req.file.path,
-            assignment_submitted_date: moment(),
+            assignment_submitted_date: Date.now(),
             assign_id: req.body.assignment_id,
             u_id: req.body.user_id
           });
@@ -188,8 +191,7 @@ router.put(
         $set: {
           assignment_title: req.body.assignment_title,
           assignment_links: req.body.assignment_links,
-          assignment_file_user: req.file.path,
-          assignment_submitted_date: moment()
+          assignment_file_user: req.file.path
         }
       }
     )
@@ -261,8 +263,7 @@ router.put("/updateSubmissionAndroid/:id", (req, res) => {
       $set: {
         assignment_title: req.body.assignment_title,
         assignment_links: req.body.assignment_links,
-        assignment_file_user: req.body.assignment_file_user,
-        assignment_submitted_date: moment()
+        assignment_file_user: req.body.assignment_file_user
       }
     }
   )

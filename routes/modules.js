@@ -97,7 +97,6 @@ router.get("/", function(req, res) {
 
 router.get("/:id", function(req, res) {
   Module.findById(req.params.id)
-
     .then(function(module) {
       res.send(module);
     })
@@ -105,17 +104,6 @@ router.get("/:id", function(req, res) {
       res.send(e);
     });
 });
-
-/* router.get("/getAllCourses", (req, res) => {
-  Course.find()
-    .then(function(course) {
-      res.status(201).json({ course: course });
-      console.log(course);
-    })
-    .catch(function(e) {
-      res.send(e);
-    });
-}); */
 
 router.put("/moduleFile/", auth, upload.single("topic_file"), function(
   req,
@@ -624,24 +612,6 @@ router.put("/moduleFile/", auth, upload.single("topic_file"), function(
   }
 });
 
-/* Course.find().countDocuments(function(err, count) {
-  router.get("/cours", function(req, res) {
-    res.json({ count: count });
-  });
-}); */
-
-/* router.delete("/deleteCourse/:id", (req, res) => {
-  Course.findByIdAndDelete(req.params.id)
-    .then(function(result) {
-      console.log("Deleted Successfully");
-      res.status(201).json({
-        message: result
-      });
-    })
-    .catch(function(e) {
-      console.log(e);
-    });
-}); */
 router.delete("/deleteModuleOnly/:id", auth, (req, res) => {
   Module.findById(req.params.id)
     .then(module => {

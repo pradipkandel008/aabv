@@ -49,12 +49,6 @@ router.get("/:id", function(req, res) {
     });
 });
 
-/* Notice.find().countDocuments(function(err, count) {
-  router.get("/noti", function(req, res) {
-    res.json(count);
-  });
-}); */
-
 router.delete("/deleteNotice/:id", auth, (req, res) => {
   Notice.findByIdAndDelete(req.params.id)
     .then(function(result) {

@@ -78,12 +78,6 @@ router.get("/", function(req, res) {
     });
 });
 
-/* Assignment.find({}).countDocuments(function(err, count) {
-  router.get("/assign", function(req, res) {
-    res.json(count);
-  });
-}); */
-
 router.get("/:id", function(req, res) {
   Assignment.findById(req.params.id)
     .then(function(assignment) {
@@ -93,19 +87,6 @@ router.get("/:id", function(req, res) {
       res.send(e);
     });
 });
-
-/* router.delete("/deleteAssignment/:id", (req, res) => {
-  Assignment.findByIdAndDelete(req.params.id)
-    .then(function(result) {
-      console.log("Assignment Deleted Successfully");
-      res.status(201).json({
-        message: "Assignment Deleted Successfully"
-      });
-    })
-    .catch(function(e) {
-      console.log(e);
-    });
-}); */
 
 router.delete("/deleteAssignment/:id", auth, (req, res) => {
   Assignment.findById(req.params.id).then(assignment => {

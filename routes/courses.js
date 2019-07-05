@@ -82,17 +82,6 @@ router.get("/:id", function(req, res) {
     });
 });
 
-/* router.get("/getAllCourses", (req, res) => {
-  Course.find()
-    .then(function(course) {
-      res.status(201).json({ course: course });
-      console.log(course);
-    })
-    .catch(function(e) {
-      res.send(e);
-    });
-}); */
-
 router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
   req,
   res
@@ -131,24 +120,6 @@ router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
     });
 });
 
-/* Course.find().countDocuments(function(err, count) {
-  router.get("/cours", function(req, res) {
-    res.json({ count: count });
-  });
-}); */
-
-/* router.delete("/deleteCourse/:id", (req, res) => {
-  Course.findByIdAndDelete(req.params.id)
-    .then(function(result) {
-      console.log("Deleted Successfully");
-      res.status(201).json({
-        message: result
-      });
-    })
-    .catch(function(e) {
-      console.log(e);
-    });
-}); */
 router.delete("/deleteCourse/:id", auth, (req, res) => {
   Course.findById(req.params.id).then(course => {
     let path = course.course_image;
