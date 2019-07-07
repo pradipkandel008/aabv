@@ -25,7 +25,7 @@ const submissionSchema = new Schema(
       type: String
     },
     assignment_submitted_date: {
-      type: String
+      type: Date
     },
     assign_id: {
       type: String
