@@ -225,8 +225,7 @@ router.post("/addSubmissionAndroid", (req, res) => {
           assignment_title: req.body.assignment_title,
           assignment_links: req.body.assignment_links,
           assignment_file_user: req.body.assignment_file_user,
-          assignment_submitted_date: moment(),
-
+          assignment_submitted_date: Date.now(),
           assign_id: req.body.assignment_id,
           u_id: req.body.user_id
         });
@@ -263,7 +262,8 @@ router.put("/updateSubmissionAndroid/:id", (req, res) => {
       $set: {
         assignment_title: req.body.assignment_title,
         assignment_links: req.body.assignment_links,
-        assignment_file_user: req.body.assignment_file_user
+        assignment_file_user: req.body.assignment_file_user,
+        assignment_submitted_date: moment()
       }
     }
   )
