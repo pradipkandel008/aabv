@@ -27,12 +27,8 @@ List out your main APIs and its sample input and output!
 1. Assignment API
 There are multiple API's for assignment purpose. For example, admin can post assignments, delete them and update them.
 #samples -->
-#router.post("/", auth, upload.single("assignment_file"), (req, res) => {....});
-#router.get("/", function(req, res) {  Assignment.find({}).then().catch()  });
-#router.get("/:id", function(req, res) {  Assignment.findById({_id:req.params.id}).then().catch()  });
-#router.delete("/deleteAssignment/:id", auth, (req, res) => {assignment.delete().then().catch()});
-#router.put("/updateAssignment/:id",auth,upload.single("assignment_file"), function(req, res) {
-    Assignment.update({ _id: id },{$set: { ..... }}).then().catch()});
+![a1](https://user-images.githubusercontent.com/39691972/60829103-e0036100-a1d3-11e9-82ab-0e2a7cc9bb98.PNG)
+
 
 Just like these samples of routes, all other routes are defined.
 
