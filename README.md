@@ -26,8 +26,11 @@ List out your main APIs and its sample input and output!
 
 1. Assignment API
 There are multiple API's for assignment purpose. For example, admin can post assignments, delete them and update them.
-#samples -->
+#samples
 ![a1](https://user-images.githubusercontent.com/39691972/60829103-e0036100-a1d3-11e9-82ab-0e2a7cc9bb98.PNG)
+![a2](https://user-images.githubusercontent.com/39691972/60829682-2b6a3f00-a1d5-11e9-921f-b420a24966ee.PNG)
+![a3](https://user-images.githubusercontent.com/39691972/60829684-2c02d580-a1d5-11e9-9e22-6ba8ea064d11.PNG)
+![a4](https://user-images.githubusercontent.com/39691972/60829681-2b6a3f00-a1d5-11e9-85eb-461aea32e30f.PNG)
 
 
 Just like these samples of routes, all other routes are defined.
