@@ -24,7 +24,7 @@ List out 3/4 main technical features of your project
 ## API Documentation
 List out your main APIs and its sample input and output!
 
-1. Assignment API
+1. Assignment API-->
 There are multiple API's for assignment purpose. Admin can post assignments, delete them and update them.
 
 ### For posting assignment   
@@ -47,13 +47,13 @@ There are multiple API's for assignment purpose. Admin can post assignments, del
 
 Just like these samples of routes, all other routes are also defined as below.
 
-2. Submission API
+2. Submission API-->
 Once the assignment has been published, students can submit assignments until the deadline exceeds. They can also edit or delete their submissions.
 
-3. Registration and Login API
+3. Registration and Login API-->
 User can register with their details and can login to the application in order to access the resources provided by the application. Also, they can update their profile details, enquire about courses, post feedbacks once they are logged in. 
 
-4. Courses and Modules API 
+4. Courses and Modules API-->
 Admins can post differnt courses and their details, update them and delete them. Also they can add different modules and their content so that students can view and download the content. 
 
 
