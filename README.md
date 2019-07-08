@@ -37,8 +37,11 @@ There are multiple API's for assignment purpose. Admin can post assignments, del
 ![a4](https://user-images.githubusercontent.com/39691972/60829681-2b6a3f00-a1d5-11e9-85eb-461aea32e30f.PNG)
 ### For file upload
 ![image](https://user-images.githubusercontent.com/39691972/60830064-193cd080-a1d6-11e9-857a-41c337dd9cfe.png)
-### for User Login
+### For User/Admin Login
 ![image](https://user-images.githubusercontent.com/39691972/60830360-be57a900-a1d6-11e9-826c-fd0b42952741.png)
+### For Logout
+![image](https://user-images.githubusercontent.com/39691972/60830480-070f6200-a1d7-11e9-9b1c-0b23c666bb94.png)
+
 
 
 
