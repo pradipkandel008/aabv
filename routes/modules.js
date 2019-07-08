@@ -42,6 +42,7 @@ const upload = multer({
 
 const Module = require("../models/modules");
 
+//route for adding module only ie module code and name
 router.post("/moduleOnly", auth, (req, res) => {
   const module = new Module({
     module_code: req.body.module_code,
@@ -70,7 +71,6 @@ router.post("/moduleOnly", auth, (req, res) => {
   module
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json({
         message: "Module Added Successfully"
       });
@@ -83,6 +83,7 @@ router.post("/moduleOnly", auth, (req, res) => {
     });
 });
 
+//route fot getting all modules
 router.get("/", function(req, res) {
   Module.find()
     .sort({ createdAt: -1 }) //sort in descending order
@@ -95,6 +96,7 @@ router.get("/", function(req, res) {
     });
 });
 
+//route for getting  module by id
 router.get("/:id", function(req, res) {
   Module.findById(req.params.id)
     .then(function(module) {
@@ -105,6 +107,7 @@ router.get("/:id", function(req, res) {
     });
 });
 
+//route for updating module to put each topic file
 router.put("/moduleFile/", auth, upload.single("topic_file"), function(
   req,
   res
@@ -612,6 +615,7 @@ router.put("/moduleFile/", auth, upload.single("topic_file"), function(
   }
 });
 
+//route for deleting module only
 router.delete("/deleteModuleOnly/:id", auth, (req, res) => {
   Module.findById(req.params.id)
     .then(module => {
@@ -632,6 +636,7 @@ router.delete("/deleteModuleOnly/:id", auth, (req, res) => {
     });
 });
 
+//route for updating module only
 router.put("/updateModuleOnly/:id", auth, function(req, res) {
   id = req.params.id.toString();
   Module.update(

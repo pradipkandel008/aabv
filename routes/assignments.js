@@ -39,6 +39,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
+//route for adding assignment
 router.post("/", auth, upload.single("assignment_file"), (req, res) => {
   const assignment = new Assignment({
     module_code: req.body.module_code,
@@ -53,7 +54,6 @@ router.post("/", auth, upload.single("assignment_file"), (req, res) => {
   assignment
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json({
         message: "Assignment Added Successfully"
       });
@@ -66,6 +66,7 @@ router.post("/", auth, upload.single("assignment_file"), (req, res) => {
     });
 });
 
+//route for getting assignments
 router.get("/", function(req, res) {
   Assignment.find({})
     .sort({ createdAt: -1 }) //sort in descending order
@@ -78,6 +79,7 @@ router.get("/", function(req, res) {
     });
 });
 
+//route for getting assignment by id
 router.get("/:id", function(req, res) {
   Assignment.findById(req.params.id)
     .then(function(assignment) {
@@ -88,6 +90,7 @@ router.get("/:id", function(req, res) {
     });
 });
 
+//route for deleting assignment
 router.delete("/deleteAssignment/:id", auth, (req, res) => {
   Assignment.findById(req.params.id).then(assignment => {
     let path = assignment.assignment_file;
@@ -97,7 +100,6 @@ router.delete("/deleteAssignment/:id", auth, (req, res) => {
     assignment
       .delete()
       .then(function(result) {
-        console.log("Assignment Deleted Successfully");
         res.status(201).json({
           message: "Assignment Deleted Successfully"
         });
@@ -108,6 +110,7 @@ router.delete("/deleteAssignment/:id", auth, (req, res) => {
   });
 });
 
+//route for updating assignment
 router.put(
   "/updateAssignment/:id",
   auth,

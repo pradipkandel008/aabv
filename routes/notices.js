@@ -4,6 +4,7 @@ const moment = require("moment");
 const Notice = require("../models/notices");
 const auth = require("../middleware/auth");
 
+//route fot adding notices
 router.post("/", auth, (req, res) => {
   const notice = new Notice({
     notice_title: req.body.notice_title,
@@ -14,7 +15,6 @@ router.post("/", auth, (req, res) => {
   notice
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json({
         message: "Notice Added Successfully"
       });
@@ -27,6 +27,7 @@ router.post("/", auth, (req, res) => {
     });
 });
 
+//route fot getting all notices
 router.get("/", function(req, res) {
   Notice.find({})
     .sort({ createdAt: -1 }) //sort in descending order
@@ -39,6 +40,7 @@ router.get("/", function(req, res) {
     });
 });
 
+//route for getting notices by id
 router.get("/:id", function(req, res) {
   Notice.findById(req.params.id)
     .then(function(notice) {
@@ -49,10 +51,10 @@ router.get("/:id", function(req, res) {
     });
 });
 
+//route for deleting notice
 router.delete("/deleteNotice/:id", auth, (req, res) => {
   Notice.findByIdAndDelete(req.params.id)
     .then(function(result) {
-      console.log("Notice Deleted Successfully");
       res.status(201).json({
         message: "Notice Deleted Successfully"
       });
@@ -62,6 +64,7 @@ router.delete("/deleteNotice/:id", auth, (req, res) => {
     });
 });
 
+//route for updating notice
 router.put("/updateNotice/:id", auth, function(req, res) {
   id = req.params.id.toString();
 

@@ -34,6 +34,7 @@ const upload = multer({
 
 const Course = require("../models/courses");
 
+//route for adding courses
 router.post("/", auth, upload.single("course_image"), (req, res) => {
   const course = new Course({
     course_name: req.body.course_name,
@@ -46,7 +47,6 @@ router.post("/", auth, upload.single("course_image"), (req, res) => {
   course
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json({
         message: "Course Added Successfully"
       });
@@ -59,6 +59,7 @@ router.post("/", auth, upload.single("course_image"), (req, res) => {
     });
 });
 
+//route for getting all courses
 router.get("/", function(req, res) {
   Course.find()
     .sort({ createdAt: -1 }) //sort in descending order
@@ -71,6 +72,7 @@ router.get("/", function(req, res) {
     });
 });
 
+//route for getting course by id
 router.get("/:id", function(req, res) {
   Course.findById(req.params.id)
 
@@ -82,6 +84,7 @@ router.get("/:id", function(req, res) {
     });
 });
 
+//route for updating course
 router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
   req,
   res
@@ -120,6 +123,7 @@ router.put("/updateCourse/:id", auth, upload.single("course_image"), function(
     });
 });
 
+//route for deleting course
 router.delete("/deleteCourse/:id", auth, (req, res) => {
   Course.findById(req.params.id).then(course => {
     let path = course.course_image;
@@ -129,7 +133,6 @@ router.delete("/deleteCourse/:id", auth, (req, res) => {
     course
       .delete()
       .then(function(result) {
-        console.log("Course Deleted Successfully");
         res.status(201).json({
           message: "Course Deleted Successfully"
         });

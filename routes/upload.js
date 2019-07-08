@@ -1,3 +1,5 @@
+//For web only
+
 var express = require("express");
 var multer = require("multer");
 var path = require("path");
@@ -27,13 +29,14 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 10 //10MB
+    fileSize: 1024 * 1024 * 50 //50MB
   },
   fileFilter: fileFilter
 });
 
 var uploadRouter = express.Router();
 
+//route for uploding image for profile image for web only
 uploadRouter.put("/updateUserImage/:id", upload.single("user_image"), function(
   req,
   res

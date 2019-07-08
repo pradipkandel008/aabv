@@ -40,6 +40,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
+//route for getting all submissions
 router.get("/", function(req, res) {
   Submission.find({})
     .sort({ createdAt: -1 }) //sort in descending order
@@ -54,18 +55,7 @@ router.get("/", function(req, res) {
     });
 });
 
-router.get("/submissions/Android", function(req, res) {
-  Submission.find({})
-    .sort({ createdAt: -1 }) //sort in descending order
-    .exec()
-    .then(function(submission) {
-      res.send(submission);
-    })
-    .catch(function(e) {
-      res.send(e);
-    });
-});
-
+//route for getting submissions by id
 router.get("/:id", function(req, res) {
   Submission.find({ assign_id: req.params.id })
     .populate("user_id")
@@ -77,6 +67,8 @@ router.get("/:id", function(req, res) {
       res.send(e);
     });
 });
+
+//route for updating submissions
 router.get("/update/:id", function(req, res) {
   Submission.findById(req.params.id)
     .then(function(submission) {
@@ -87,17 +79,7 @@ router.get("/update/:id", function(req, res) {
     });
 });
 
-router.get("/android/:id", function(req, res) {
-  uid = req.params.id;
-  Submission.find({ u_id: uid })
-    .then(function(submission) {
-      res.send(submission);
-    })
-    .catch(function(e) {
-      res.send(e);
-    });
-});
-
+//route for posting submission
 router.post(
   "/addSubmission",
   auth,
@@ -128,7 +110,6 @@ router.post(
           submission
             .save()
             .then(result => {
-              console.log(result);
               res.status(201).json({
                 message: "Assignment Submitted Successfully"
               });
@@ -150,6 +131,7 @@ router.post(
   }
 );
 
+//route for deleting submissions
 router.delete("/deleteSubmission/:id", auth, (req, res) => {
   Submission.findById(req.params.id).then(submission => {
     let path = submission.assignment_file_user;
@@ -169,6 +151,7 @@ router.delete("/deleteSubmission/:id", auth, (req, res) => {
   });
 });
 
+//route for updating submissions
 router.put(
   "/updateSubmission/:id",
   auth,
@@ -207,6 +190,33 @@ router.put(
   }
 );
 
+//Android
+//route for getting submission in Android
+router.get("/submissions/Android", function(req, res) {
+  Submission.find({})
+    .sort({ createdAt: -1 }) //sort in descending order
+    .exec()
+    .then(function(submission) {
+      res.send(submission);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+
+//route for getting submissions of a particular user for android
+router.get("/android/:id", function(req, res) {
+  uid = req.params.id;
+  Submission.find({ u_id: uid })
+    .then(function(submission) {
+      res.send(submission);
+    })
+    .catch(function(e) {
+      res.send(e);
+    });
+});
+
+//route for adding submissions for android
 router.post("/addSubmissionAndroid", (req, res) => {
   Submission.find({
     user_id: req.body.user_id,
@@ -255,6 +265,7 @@ router.post("/addSubmissionAndroid", (req, res) => {
     });
 });
 
+//route for updating submissions for android
 router.put("/updateSubmissionAndroid/:id", (req, res) => {
   sid = req.params.id;
   Submission.update(
@@ -278,6 +289,7 @@ router.put("/updateSubmissionAndroid/:id", (req, res) => {
     });
 });
 
+//route for deleting submissions for android
 router.delete("/deleteSubmission/Android/:id", (req, res) => {
   Submission.findById(req.params.id).then(submission => {
     submission

@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const fs = require("fs");
-
 const User = require("../models/users");
 
+//route for registering users
 router.post("/register", (req, res) => {
   User.find({ email: req.body.email })
     .exec()
@@ -29,7 +29,6 @@ router.post("/register", (req, res) => {
         user
           .save()
           .then(result => {
-            console.log(result);
             res.status(201).json({
               message_success: "Register Successful"
             });
@@ -49,22 +48,26 @@ router.post("/register", (req, res) => {
     });
 });
 
+//route for getting users details after login
 router.get("/me", auth, function(req, res) {
   res.send(req.user);
 });
 
+//route for counting total no of users
 User.find({ user_type: "user" }).countDocuments(function(err, count) {
   router.get("/", function(req, res) {
     res.json(count);
   });
 });
+
+//route for counting total no of admins
 User.find({ user_type: "admin" }).countDocuments(function(err, count) {
   router.get("/admins", function(req, res) {
     res.json(count);
-    console.log(count);
   });
 });
 
+//route for user login
 router.post("/login", async function(req, res) {
   try {
     const user = await User.checkCrediantialsDb(
@@ -73,8 +76,6 @@ router.post("/login", async function(req, res) {
     );
     //const message = await user.message;
     if (user) {
-      // console.log("We are here");
-      console.log(user);
       const token = await user.generateAuthToken();
       res.status(201).json({
         token: token,
@@ -99,10 +100,9 @@ router.post("/login", async function(req, res) {
   } catch (e) {
     console.log(e);
   }
-
-  //res.end(modelUser);
 });
 
+//route for user logout
 router.post("/logout", auth, async (req, res) => {
   try {
     req.user.tokens = [];
@@ -113,6 +113,7 @@ router.post("/logout", auth, async (req, res) => {
   }
 });
 
+//route for updating user for web
 router.put("/updateUser/:id", auth, function(req, res) {
   uid = req.body.id;
   User.update(
@@ -142,6 +143,7 @@ router.put("/updateUser/:id", auth, function(req, res) {
     });
 });
 
+//route for updatinng user in Android
 router.put("/updateUserAndroid/:id", function(req, res) {
   uid = req.params.id;
   User.update(
@@ -171,6 +173,7 @@ router.put("/updateUserAndroid/:id", function(req, res) {
     });
 });
 
+//route for getting all users
 router.get("/getAllUser", (req, res) => {
   User.find({ user_type: "user" })
     .then(function(user) {
@@ -180,6 +183,8 @@ router.get("/getAllUser", (req, res) => {
       res.send(e);
     });
 });
+
+//route for getting all admins
 router.get("/getAllAdmin", (req, res) => {
   User.find({ user_type: "admin" })
     .then(function(user) {
@@ -190,6 +195,7 @@ router.get("/getAllAdmin", (req, res) => {
     });
 });
 
+//route for updating user profile image for both Web and Android
 router.put("/updateImage/:id", function(req, res) {
   id = req.params.id;
   if (req.body.user_image != null) {
@@ -208,14 +214,11 @@ router.put("/updateImage/:id", function(req, res) {
     }
   )
     .then(function(user) {
-      console.log("Image uploaded to database");
-
       res.status(201).json({
         message: "Upload Success"
       });
     })
     .catch(function(e) {
-      console.log(e);
       res.status(422).json({
         message: "Unable to Update:" + e
       });

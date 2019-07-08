@@ -1,3 +1,5 @@
+//for android only
+
 var express = require("express");
 var multer = require("multer");
 var path = require("path");
@@ -27,6 +29,7 @@ var upload = multer({
 
 var router = express.Router();
 
+//route for uploading image to folder
 router.route("/").post(upload.single("user_image"), (req, res) => {
   //console.log(ImagefileName);
   var resPonseFilename = JSON.stringify({

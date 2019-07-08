@@ -4,6 +4,7 @@ const moment = require("moment");
 const Feedback = require("../models/feedbacks");
 const auth = require("../middleware/auth");
 
+//route for adding feedback
 router.post("/", auth, (req, res) => {
   const feedback = new Feedback({
     u_id: req.body.u_id,
@@ -12,7 +13,6 @@ router.post("/", auth, (req, res) => {
   feedback
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json({
         message: "Feedback Posted Successfully"
       });
@@ -25,6 +25,7 @@ router.post("/", auth, (req, res) => {
     });
 });
 
+//route for getting all feedbacks
 router.get("/", function(req, res) {
   Feedback.find({})
     .sort({ createdAt: -1 }) //sort in descending order
@@ -38,6 +39,7 @@ router.get("/", function(req, res) {
     });
 });
 
+//route for deleting feedback by id
 router.delete("/deleteFeedback/:id", auth, (req, res) => {
   Feedback.findByIdAndDelete(req.params.id)
     .then(function(result) {
@@ -51,6 +53,7 @@ router.delete("/deleteFeedback/:id", auth, (req, res) => {
     });
 });
 
+//route for posting feedbacks for android
 router.post("/feedbacks/Android", (req, res) => {
   const feedback = new Feedback({
     u_id: req.body.u_id,
@@ -71,6 +74,7 @@ router.post("/feedbacks/Android", (req, res) => {
     });
 });
 
+//route for getting feedback by user id for android
 router.get("/Android/:id", function(req, res) {
   var uid = req.params.id;
   Feedback.find({ u_id: uid })
@@ -85,10 +89,10 @@ router.get("/Android/:id", function(req, res) {
     });
 });
 
+//route for deleting feedbacks
 router.delete("/deleteFeedback/Android/:id", (req, res) => {
   Feedback.findByIdAndDelete(req.params.id)
     .then(function(result) {
-      console.log("Feedback Deleted Successfully");
       res.status(201).json({
         message: "Feedback Deleted Successfully"
       });

@@ -3,6 +3,7 @@ const router = express.Router();
 const moment = require("moment");
 const Enquire = require("../models/enquires");
 
+//route for adding enquiries
 router.post("/", (req, res) => {
   const enquire = new Enquire({
     first_name: req.body.first_name,
@@ -14,7 +15,6 @@ router.post("/", (req, res) => {
   enquire
     .save()
     .then(result => {
-      console.log(result);
       res.status(201).json({
         message: "Enquire Posted Successfully"
       });
@@ -26,6 +26,8 @@ router.post("/", (req, res) => {
       });
     });
 });
+
+//route for getting all enquiries
 router.get("/", function(req, res) {
   Enquire.find({})
     .sort({ createdAt: -1 }) //sort in descending order

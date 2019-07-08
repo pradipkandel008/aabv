@@ -1,3 +1,5 @@
+//for android only
+
 var express = require("express");
 var multer = require("multer");
 var path = require("path");
@@ -35,22 +37,25 @@ var upload = multer({
 
 var router = express.Router();
 
-router.route("/assignmentSubmit").post(upload.single("assignment_file_user"), (req, res) => {
-  //console.log(ImagefileName);
-  var resPonseFilename = JSON.stringify({
-    user_file: submissionFile
+//route for uploading submission file to folder for android only
+router
+  .route("/assignmentSubmit")
+  .post(upload.single("assignment_file_user"), (req, res) => {
+    //console.log(ImagefileName);
+    var resPonseFilename = JSON.stringify({
+      user_file: submissionFile
+    });
+    //console.log(resPonseFilename);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify(
+        {
+          user_file: submissionFile
+        },
+        null,
+        3
+      )
+    );
   });
-  //console.log(resPonseFilename);
-  res.writeHead(200, { "Content-Type": "application/json" });
-  res.end(
-    JSON.stringify(
-      {
-        user_file: submissionFile
-      },
-      null,
-      3
-    )
-  );
-});
 
 module.exports = router;

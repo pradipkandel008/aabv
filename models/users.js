@@ -51,7 +51,7 @@ const userSchema = new Schema(
 );
 
 userSchema.statics.checkCrediantialsDb = async (user, password) => {
-  const user1 = await User.findOne({ user_name: user, password: password });
+  const user1 = await User.findOne({ email: user, password: password });
   if (user1) {
     return user1;
   }
